@@ -50,9 +50,6 @@ for k in range(1000):###NUMERO DE ITERACIONES
 
 prediccion = np.dot(u,v).astype(int)
 
-print('Prediccion:\n ',prediccion)
-print('\nOriginal:\n',dataMatrix)
-
 ultimo = prediccion[-1]
 
 ultra = []
