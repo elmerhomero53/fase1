@@ -1,25 +1,30 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon May  4 10:41:00 2020
-
 @author: jefe de jefes
 """
 
-import networkx as nx
 import pandas as pd
-import math as m
+import numpy as np
 
-G = nx.DiGraph()
+url = "https://forms.gle/ZvXUaycQtQVJLUQg8"
+ans = "no"
 
-fn = 'ratings.xlsx'
-data = pd.read_excel(fn)
+while "si" not in ans:
+    print("Por favor, llene la siguiente encuesta:\n ",url)
+    ans = input("ya la lleno? ingrese si cuando ya la haya llenado por favor\n")
+
+url = 'https://docs.google.com/spreadsheets/d/1AjZpofZv3Y5U6QRUFtpI_XQgvjJpWXk_6oxGnb2te3o/export?format=csv&gid=1067477951'
+
+data = pd.read_csv(url)
+
 data = data.drop(columns=['Timestamp'])
 
 ## df to npndarray
 
-dataMatrix = data.to_numpy()
+#data = data.replace('no lo conozco',np.nan)
 
-import numpy as np
+dataMatrix = data.to_numpy()
 
 def GradientD(fila,col,verd):
     fila=fila+0.1*col*(verd-np.dot(fila,col))
@@ -52,13 +57,14 @@ ultimo = prediccion[-1]
 
 ultra = []
 
-print('Se le recomienda ir a los siguientes restaurantes: \n')
-print('Recomendados: ')
-for i in range(len(ultimo)):
-    if ultimo[i] >= 4:
+for i in range(len(dataMatrix[-1])):
+    if dataMatrix[-1][i]=='no lo conozco':
         ultra.append(i)
+
+print('Se le recomienda ir a los siguientes restaurantes: \n')
+
 for n in ultra:
-    print(data.columns[n])
-
-
-
+    if ultimo[n]>=np.mean(ultimo):
+        print(data.columns[n])
+    if ultra==[]:
+        print('Ya conoce todos los restaurantes')
